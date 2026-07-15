@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    restart: unless-stopped
+    ports:
+      - "80:8096"
+    volumes:
+      - ./config:/config
+      - ./cache:/cache
+      - ~/teleseries:/teleseries
+      # Cambiamos el destino interno dentro del contenedor
+      - /mnt/gdrive-ppp:/media/gdrive-ppp:ro
+    environment:
+      - TZ=America/Santiago

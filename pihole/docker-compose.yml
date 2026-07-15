@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "8181:80/tcp" # Volvemos al mapeo limpio que te funcionaba
+    environment:
+      TZ: 'America/Santiago'
+      WEBPASSWORD: '123123'
+      SERVERIP: '192.168.1.40'
+      # Esta variable le dice a Pi-hole v6 que acepte peticiones de toda la LAN aunque esté en modo bridge:
+      FTLCONF_dns_interfaceMode: 'all' 
+    volumes:
+      - './etc-pihole:/etc/pihole'
+      - './etc-dnsmasq.d:/etc/dnsmasq.d'
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped

@@ -1,0 +1,30 @@
+services:
+  mc:
+    image: itzg/minecraft-server:latest
+    container_name: minecraft-forge
+    ports:
+      - "25565:25565"
+    environment:
+      EULA: "TRUE"
+
+      # Forge
+      TYPE: "FORGE"
+      VERSION: "26.1.2"
+      FORGE_VERSION: "64.0.8"
+
+      # RAM (ajusta según tu VPS)
+      MEMORY: "4G"
+
+      # Opcional: opciones extra JVM
+      # JVM_OPTS: "-XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100"
+
+      # Opcional: servidor
+      MOTD: "Forge Server"
+      DIFFICULTY: "normal"
+      MAX_PLAYERS: "20"
+      ONLINE_MODE: "true"
+      VIEW_DISTANCE: "10"
+
+    volumes:
+      - ./data:/data
+    restart: unless-stopped

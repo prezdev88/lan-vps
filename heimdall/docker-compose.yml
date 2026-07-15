@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  heimdall:
+    image: lscr.io/linuxserver/heimdall:latest
+    container_name: heimdall
+    environment:
+      - PUID=1000 # Tu ID de usuario en Arch (normalmente 1000)
+      - PGID=1000 # Tu ID de grupo en Arch (normalmente 1000)
+      - TZ=America/Santiago
+    volumes:
+      - ./config:/config # Guarda la configuración y tarjetas de forma local
+    ports:
+      - "8080:80"
+      - "8443:443"
+    restart: unless-stopped

@@ -1,0 +1,27 @@
+services:
+  mc:
+    image: itzg/minecraft-server:latest
+    container_name: minecraft-forge-2
+    ports:
+      - "8082:25565"
+    environment:
+      EULA: "TRUE"
+
+      # Forge
+      TYPE: "FORGE"
+      VERSION: "26.1.2"
+      FORGE_VERSION: "64.0.8"
+
+      # RAM
+      MEMORY: "2G"
+
+      # Servidor
+      MOTD: "Hard Mode"
+      DIFFICULTY: "hard"
+      MAX_PLAYERS: "10"
+      ONLINE_MODE: "true"
+      VIEW_DISTANCE: "8"
+
+    volumes:
+      - ./data:/data
+    restart: unless-stopped
