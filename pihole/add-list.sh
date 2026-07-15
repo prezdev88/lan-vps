@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
-# 1. Asegúrate de estar en la carpeta del pihole en el VPS
 cd ~/docker/pihole
 
-# 2. Verificar si sqlite3 está instalado en Arch, si no, instalarlo
+# 1. Verificar sqlite3
 if ! command -v sqlite3 &> /dev/null; then
     echo "🔍 'sqlite3' no está instalado. Instalando mediante pacman..."
     sudo pacman -Sy --noconfirm sqlite
@@ -11,18 +10,28 @@ else
     echo "✅ 'sqlite3' ya está instalado en el sistema."
 fi
 
-# 3. Leer el archivo adlists.txt e insertar cada URL en la base de datos local
+# 2. Comprobar si hubo cambios en adlists.txt usando md5sum
+HASH_FILE=".adlists.hash"
+NUEVO_HASH=$(md5sum adlists.txt 2>/dev/null)
+
+if [ -f "$HASH_FILE" ] && [ "$NUEVO_HASH" = "$(cat $HASH_FILE)" ]; then
+    echo "✨ No hay cambios en adlists.txt. Tu Pi-hole ya está al día. ¡Nada que hacer!"
+    exit 0
+fi
+
+# 3. Importar URLs si hay cambios
 echo "📥 Importando URLs de adlists.txt a Pi-hole..."
 while read -r url; do
-  # Ignora líneas vacías o comentarios que empiecen con #
   [[ -z "$url" || "$url" =~ ^# ]] && continue
-  
-  # Inserta en la base de datos local
   sqlite3 etc-pihole/gravity.db "INSERT OR IGNORE INTO adlist (address, enabled) VALUES ('$url', 1);"
 done < adlists.txt
 
-# 4. Dile a Pi-hole que descargue las nuevas listas de inmediato
+# 4. Actualizar solo si el proceso completó correctamente
 echo "🔄 Actualizando la gravedad de Pi-hole (esto puede tardar un momento)..."
-docker compose exec pihole pihole -g
-
-echo "🎉 ¡Restauración completada con éxito en tu VPS Arch!"
+if docker compose exec pihole pihole -g; then
+    # Guardar el nuevo hash para la próxima vez
+    echo "$NUEVO_HASH" > "$HASH_FILE"
+    echo "🎉 ¡Restauración y actualización completadas con éxito!"
+else
+    echo "❌ Error al actualizar la gravedad en el contenedor de Pi-hole."
+fi
