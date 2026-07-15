@@ -1,7 +1,6 @@
 name: lan-vps-global
 
 include:
-  - excalidraw/docker-compose.yml
   - heimdall/docker-compose.yml
   - jellyfin/docker-compose.yml
   - minecraft-server/docker-compose.yml

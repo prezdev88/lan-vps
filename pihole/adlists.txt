@@ -1,0 +1,12 @@
+https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+https://big.oisd.nl
+https://v.firebog.net/hosts/AdguardDNS.txt
+https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/filters.txt
+https://raw.githubusercontent.com/stevejenkins/pi-hole-lists/refs/heads/main/blocklists.txt
+https://raw.githubusercontent.com/stevejenkins/pi-hole-lists/refs/heads/main/regex.txt
+https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/multi.txt
+https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/popupads.txt
+https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/tif.txt
+https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/fake.txt
+https://v.firebog.net/hosts/Easyprivacy.txt
+https://v.firebog.net/hosts/Prigent-Crypto.txt
